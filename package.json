@@ -1,0 +1,59 @@
+{
+  "name": "extra-benchmark",
+  "version": "0.1.0",
+  "description": "Lightweight benchmarking library.",
+  "keywords": [],
+  "files": [
+    "lib",
+    "dist"
+  ],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "sideEffects": false,
+  "repository": "git@github.com:BlackGlory/extra-benchmark.git",
+  "author": "BlackGlory <woshenmedoubuzhidao@blackglory.me>",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx --quiet src __tests__",
+    "test": "jest --runInBand --config jest.config.js",
+    "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
+    "test:coverage": "jest --coverage --config jest.config.js",
+    "prepublishOnly": "run-s clean build",
+    "clean": "rimraf lib",
+    "build": "run-p build:*",
+    "build:compile": "tsc --project tsconfig.build.json --module commonjs",
+    "build:patch": "tscpaths -p tsconfig.build.json -s ./src -o ./lib",
+    "bench": "./benches/benchmark.sh",
+    "release": "standard-version"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "run-s lint build test",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "devDependencies": {
+    "@blackglory/jest-matchers": "^0.3.1",
+    "@commitlint/cli": "^17.0.3",
+    "@commitlint/config-conventional": "^17.0.3",
+    "@types/jest": "^27.4.1",
+    "@types/node": "^18.7.13",
+    "@typescript-eslint/eslint-plugin": "^5.35.1",
+    "@typescript-eslint/parser": "^5.35.1",
+    "eslint": "^8.22.0",
+    "husky": "^4.3.8",
+    "iterable-operator": "^1.2.1",
+    "jest": "^27.5.1",
+    "npm-run-all": "^4.1.5",
+    "return-style": "^1.0.0",
+    "rimraf": "^3.0.2",
+    "standard-version": "^9.5.0",
+    "ts-jest": "^27.1.4",
+    "tscpaths": "^0.0.9",
+    "tslib": "^2.3.1",
+    "typescript": "^4.8.2"
+  },
+  "dependencies": {
+    "@blackglory/prelude": "^0.1.4"
+  }
+}
