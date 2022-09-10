@@ -66,25 +66,10 @@ export class Benchmark {
       const runs = options.runs ?? this.runs
 
       // warm-up
-      for (let i = warmUps; i--;) {
-        await iterate()
-      }
+      await sample(iterate, warmUps)
 
-      const samples: ISample[] = []
       // run
-      for (let i = runs; i--;) {
-        const startRSS = process.memoryUsage().rss
-        const startTime = process.hrtime.bigint()
-        await iterate()
-        const endTime = process.hrtime.bigint()
-        const elapsedTime = endTime - startTime
-        const endRSS = process.memoryUsage().rss
-        const memoryIncrements = endRSS - startRSS
-        samples.push({
-          elapsedTime
-        , memoryIncrements
-        })
-      }
+      const samples: ISample[] = await sample(iterate, runs)
 
       const elapsedTimes = samples.map(x => x.elapsedTime)
       const maxiumElapsedTime = elapsedTimes.reduce((max, cur) => cur > max ? cur : max)
@@ -135,6 +120,25 @@ export class Benchmark {
       , averageMemoryIncrements
       , minimumMemoryIncrements
       }
+
     }
   }
+}
+
+async function sample(iterate: () => Awaitable<void>, times: number): Promise<ISample[]> {
+  const samples: ISample[] = []
+  for (let i = times; i--;) {
+    const startRSS = process.memoryUsage().rss
+    const startTime = process.hrtime.bigint()
+    await iterate()
+    const endTime = process.hrtime.bigint()
+    const elapsedTime = endTime - startTime
+    const endRSS = process.memoryUsage().rss
+    const memoryIncrements = endRSS - startRSS
+    samples.push({
+      elapsedTime
+    , memoryIncrements
+    })
+  }
+  return samples
 }
