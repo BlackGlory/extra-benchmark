@@ -1,32 +1,122 @@
 import { Benchmark } from '@src/benchmark'
-import { toArrayAsync } from 'iterable-operator'
+import { toArrayAsync, toArray, takeRight } from 'iterable-operator'
 
 describe('Benchmark', () => {
-  test('run', async () => {
-    const bench = new Benchmark('benchmark')
-    const iterate = jest.fn()
-    const fn = jest.fn(() => iterate)
-    bench.addCase('case', fn)
+  describe('run', () => {
+    test('iterate(): void', async () => {
+      const bench = new Benchmark('benchmark')
+      const iterate = jest.fn()
+      const fn = jest.fn(() => iterate)
+      bench.addCase('case', fn)
 
-    const result = await toArrayAsync(bench.run())
+      const result = await toArrayAsync(bench.run())
 
-    expect(fn).toBeCalledTimes(1)
-    expect(iterate).toBeCalledTimes(100 + 100)
-    expect(result).toStrictEqual([
-      {
-        name: 'case'
-      , warms: 100
-      , runs: 100
-      , operationsPerSecond: expect.any(Number)
-      , operationsPerMillisecond: expect.any(Number)
-      , maxiumElapsedTime: expect.any(Number)
-      , minimumElapsedTime: expect.any(Number)
-      , averageElapsedTime: expect.any(Number)
-      , maximumMemoryIncrements: expect.any(Number)
-      , minimumMemoryIncrements: expect.any(Number)
-      , averageMemoryIncrements: expect.any(Number)
-      }
-    ])
+      expect(fn).toBeCalledTimes(1)
+      expect(iterate).toBeCalledTimes(100 + 100)
+      expect(result).toStrictEqual([
+        {
+          name: 'case'
+        , warms: 100
+        , runs: 100
+        , operationsPerSecond: expect.any(Number)
+        , operationsPerMillisecond: expect.any(Number)
+        , maxiumElapsedTime: expect.any(Number)
+        , minimumElapsedTime: expect.any(Number)
+        , averageElapsedTime: expect.any(Number)
+        , maximumMemoryIncrements: expect.any(Number)
+        , minimumMemoryIncrements: expect.any(Number)
+        , averageMemoryIncrements: expect.any(Number)
+        }
+      ])
+    })
+
+    test('iterate(): afterEach', async () => {
+      const bench = new Benchmark('benchmark')
+      const orderOfCalls: string[] = []
+      const iterate = jest.fn(() => {
+        orderOfCalls.push('iterate')
+        return afterEach
+      })
+      const afterEach = jest.fn(() => {
+        orderOfCalls.push('afterEach')
+      })
+      const fn = jest.fn(() => iterate)
+      bench.addCase('case', fn)
+
+      const result = await toArrayAsync(bench.run())
+
+      expect(fn).toBeCalledTimes(1)
+      expect(iterate).toBeCalledTimes(100 + 100)
+      expect(afterEach).toBeCalledTimes(100 + 100)
+      expect(toArray(takeRight(orderOfCalls, 2))).toStrictEqual([
+        'iterate', 'afterEach'
+      ])
+      expect(result).toStrictEqual([
+        {
+          name: 'case'
+        , warms: 100
+        , runs: 100
+        , operationsPerSecond: expect.any(Number)
+        , operationsPerMillisecond: expect.any(Number)
+        , maxiumElapsedTime: expect.any(Number)
+        , minimumElapsedTime: expect.any(Number)
+        , averageElapsedTime: expect.any(Number)
+        , maximumMemoryIncrements: expect.any(Number)
+        , minimumMemoryIncrements: expect.any(Number)
+        , averageMemoryIncrements: expect.any(Number)
+        }
+      ])
+    })
+
+    test('iterate(): afterEach, beforeEach, afterAll', async () => {
+      const bench = new Benchmark('benchmark')
+      const orderOfCalls: string[] = []
+      const iterate = jest.fn(() => {
+        orderOfCalls.push('iterate')
+        return afterEach
+      })
+      const beforeEach = jest.fn(() => {
+        orderOfCalls.push('beforeEach')
+      })
+      const afterEach = jest.fn(() => {
+        orderOfCalls.push('afterEach')
+      })
+      const afterAll = jest.fn(() => {
+        orderOfCalls.push('afterAll')
+      })
+      const fn = jest.fn(() => ({
+        iterate
+      , beforeEach
+      , afterAll
+      }))
+      bench.addCase('case', fn)
+
+      const result = await toArrayAsync(bench.run())
+
+      expect(fn).toBeCalledTimes(1)
+      expect(iterate).toBeCalledTimes(100 + 100)
+      expect(beforeEach).toBeCalledTimes(100 + 100)
+      expect(afterEach).toBeCalledTimes(100 + 100)
+      expect(afterAll).toBeCalledTimes(1 + 1)
+      expect(toArray(takeRight(orderOfCalls, 4))).toStrictEqual([
+        'beforeEach', 'iterate', 'afterEach', 'afterAll'
+      ])
+      expect(result).toStrictEqual([
+        {
+          name: 'case'
+        , warms: 100
+        , runs: 100
+        , operationsPerSecond: expect.any(Number)
+        , operationsPerMillisecond: expect.any(Number)
+        , maxiumElapsedTime: expect.any(Number)
+        , minimumElapsedTime: expect.any(Number)
+        , averageElapsedTime: expect.any(Number)
+        , maximumMemoryIncrements: expect.any(Number)
+        , minimumMemoryIncrements: expect.any(Number)
+        , averageMemoryIncrements: expect.any(Number)
+        }
+      ])
+    })
   })
 
   describe('options', () => {

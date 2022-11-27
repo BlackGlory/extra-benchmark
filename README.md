@@ -87,7 +87,16 @@ class Benchmark {
 
   addCase(
     name: string
-  , fn: () => Awaitable<() => Awaitable<void>>
+  , fn: () => Awaitable<
+      // iterate(): afterEach
+    | (() => Awaitable<(() => Awaitable<void>) | Falsy>)
+    | {
+        // iterate(): afterEach
+        iterate: () => Awaitable<(() => Awaitable<void>) | Falsy>
+        beforeEach?: () => Awaitable<void>
+        afterAll?: () => Awaitable<void>
+      }
+    >
   , options?: IBenchmarkResult
   ): void
 

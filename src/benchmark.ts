@@ -1,4 +1,4 @@
-import { Awaitable } from '@blackglory/prelude'
+import { pass, Awaitable, isFunction,  } from '@blackglory/prelude'
 
 export interface IBenchmarkOptions {
   /* The number of times to warm up the benchmark test */
@@ -29,7 +29,14 @@ export interface IBenchmarkCaseResult {
 
 interface IBenchmarkCase {
   name: string
-  fn: () => Awaitable<() => Awaitable<void>>
+  fn: () => Awaitable<
+  | (() => Awaitable<void | (() => void)>) // iterate
+  | {
+      iterate: () => Awaitable<void | (() => void)>
+      beforeEach?: () => Awaitable<void>
+      afterAll?: () => Awaitable<void>
+    }
+  >
   options: IBenchmarkOptions
 }
 
@@ -51,7 +58,16 @@ export class Benchmark {
 
   addCase(
     name: string
-  , fn: () => Awaitable<() => Awaitable<void>>
+  , fn: () => Awaitable<
+      // iterate(): afterEach
+    | (() => Awaitable<void | (() => Awaitable<void>)>)
+    | {
+        // iterate(): afterEach
+        iterate: () => Awaitable<void | (() => void)>
+        beforeEach?: () => Awaitable<void>
+        afterAll?: () => Awaitable<void>
+      }
+    >
   , options: IBenchmarkOptions = {}
   ): void {
     this.benchmarkCases.push({ name, fn, options })
@@ -60,15 +76,28 @@ export class Benchmark {
   async * run(): AsyncIterable<IBenchmarkCaseResult> {
     for (const benchmarkCase of this.benchmarkCases) {
       const { fn, name, options } = benchmarkCase
-      const iterate = await fn()
+      const result = await fn()
+      const iterate = isFunction(result) ? result : result.iterate
+      const beforeEach = isFunction(result) ? pass : (result.beforeEach ?? pass)
+      const afterAll = isFunction(result) ? pass : (result.afterAll ?? pass)
       const warms = options.warms ?? this.warms
       const runs = options.runs ?? this.runs
 
       // warm-up
-      await sample(iterate, warms)
+      await sample({
+        iterate
+      , beforeEach
+      , afterAll
+      , times: warms
+      })
 
       // run
-      const samples: ISample[] = await sample(iterate, runs)
+      const samples: ISample[] = await sample({
+        iterate
+      , beforeEach
+      , afterAll
+      , times: runs
+      })
 
       const elapsedTimes = samples.map(x => x.elapsedTime)
       const maxiumElapsedTime = elapsedTimes.reduce((max, cur) => {
@@ -113,24 +142,38 @@ export class Benchmark {
   }
 }
 
-async function sample(
-  iterate: () => Awaitable<void>
+async function sample({ iterate, beforeEach, afterAll, times }: {
+  // iterate(): afterEach
+  iterate: () => Awaitable<void | (() => Awaitable<void>)>
+, beforeEach: () => Awaitable<void>
+, afterAll: () => Awaitable<void>
 , times: number
+}
 ): Promise<ISample[]> {
   const samples: ISample[] = []
+
   for (let i = times; i--;) {
+    await beforeEach()
+
     const startRSS = process.memoryUsage().rss
     const startTime = performance.now()
 
-    await iterate()
+    const afterEach = await iterate()
 
     const endTime = performance.now()
     const endRSS = process.memoryUsage().rss
+
+    if (isFunction(afterEach)) {
+      await afterEach()
+    }
 
     const elapsedTime = endTime - startTime
     const memoryIncrements = endRSS - startRSS
 
     samples.push({ elapsedTime, memoryIncrements })
   }
+
+  await afterAll()
+
   return samples
 }
