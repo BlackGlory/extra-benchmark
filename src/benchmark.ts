@@ -87,7 +87,6 @@ export class Benchmark {
       await sample({
         iterate
       , beforeEach
-      , afterAll
       , times: warms
       })
 
@@ -95,9 +94,10 @@ export class Benchmark {
       const samples: ISample[] = await sample({
         iterate
       , beforeEach
-      , afterAll
       , times: runs
       })
+
+      await afterAll()
 
       const elapsedTimes = samples.map(x => x.elapsedTime)
       const maxiumElapsedTime = elapsedTimes.reduce((max, cur) => {
@@ -142,11 +142,10 @@ export class Benchmark {
   }
 }
 
-async function sample({ iterate, beforeEach, afterAll, times }: {
+async function sample({ iterate, beforeEach, times }: {
   // iterate(): afterEach
   iterate: () => Awaitable<void | (() => Awaitable<void>)>
 , beforeEach: () => Awaitable<void>
-, afterAll: () => Awaitable<void>
 , times: number
 }
 ): Promise<ISample[]> {
@@ -172,8 +171,6 @@ async function sample({ iterate, beforeEach, afterAll, times }: {
 
     samples.push({ elapsedTime, memoryIncrements })
   }
-
-  await afterAll()
 
   return samples
 }

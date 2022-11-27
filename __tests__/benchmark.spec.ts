@@ -97,7 +97,7 @@ describe('Benchmark', () => {
       expect(iterate).toBeCalledTimes(100 + 100)
       expect(beforeEach).toBeCalledTimes(100 + 100)
       expect(afterEach).toBeCalledTimes(100 + 100)
-      expect(afterAll).toBeCalledTimes(1 + 1)
+      expect(afterAll).toBeCalledTimes(1)
       expect(toArray(takeRight(orderOfCalls, 4))).toStrictEqual([
         'beforeEach', 'iterate', 'afterEach', 'afterAll'
       ])
