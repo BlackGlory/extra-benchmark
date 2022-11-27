@@ -46,7 +46,7 @@ for await (const result of benchmark.run()) {
 ```ts
 interface IBenchmarkOptions {
   /* The number of times to warm up the benchmark test */
-  warmUps?: number
+  warms?: number
 
   /* The number of times to run the benchmark test */
   runs?: number
@@ -54,7 +54,7 @@ interface IBenchmarkOptions {
 
 interface IBenchmarkCaseResult {
   name: string
-  warmUps: number
+  warms: number
   runs: number
 
   operationsPerSecond: number
@@ -81,7 +81,7 @@ class Benchmark {
   constructor(
     name: string
   , {
-      warmUps: 100
+      warms: 100
     , runs: 100
     }: IBenchmarkOptions = {}
   )

@@ -15,7 +15,7 @@ describe('Benchmark', () => {
     expect(result).toStrictEqual([
       {
         name: 'case'
-      , warmUps: 100
+      , warms: 100
       , runs: 100
       , operationsPerSecond: expect.any(Number)
       , operationsPerMillisecond: expect.any(Number)
@@ -52,7 +52,7 @@ describe('Benchmark', () => {
       expect(result).toStrictEqual([
         {
           name: 'case-1'
-        , warmUps: 100
+        , warms: 100
         , runs: 100
         , operationsPerSecond: expect.any(Number)
         , operationsPerMillisecond: expect.any(Number)
@@ -69,7 +69,7 @@ describe('Benchmark', () => {
         }
       , {
           name: 'case-2'
-        , warmUps: 100
+        , warms: 100
         , runs: 100
         , operationsPerSecond: expect.any(Number)
         , operationsPerMillisecond: expect.any(Number)
@@ -89,7 +89,7 @@ describe('Benchmark', () => {
 
     test('custom options', async () => {
       const bench = new Benchmark('benchmark', {
-        warmUps: 500
+        warms: 500
       , runs: 1000
       })
       const iterate1 = jest.fn()
@@ -108,7 +108,7 @@ describe('Benchmark', () => {
       expect(result).toStrictEqual([
         {
           name: 'case-1'
-        , warmUps: 500
+        , warms: 500
         , runs: 1000
         , operationsPerSecond: expect.any(Number)
         , operationsPerMillisecond: expect.any(Number)
@@ -125,7 +125,7 @@ describe('Benchmark', () => {
         }
       , {
           name: 'case-2'
-        , warmUps: 500
+        , warms: 500
         , runs: 1000
         , operationsPerSecond: expect.any(Number)
         , operationsPerMillisecond: expect.any(Number)
@@ -145,7 +145,7 @@ describe('Benchmark', () => {
 
     test('custom case options', async () => {
       const bench = new Benchmark('benchmark', {
-        warmUps: 500
+        warms: 500
       , runs: 1000
       })
       const iterate1 = jest.fn()
@@ -154,7 +154,7 @@ describe('Benchmark', () => {
       const fn2 = jest.fn(() => iterate2)
       bench.addCase('case-1', fn1)
       bench.addCase('case-2', fn2, {
-        warmUps: 1000
+        warms: 1000
       , runs: 2000
       })
 
@@ -167,7 +167,7 @@ describe('Benchmark', () => {
       expect(result).toStrictEqual([
         {
           name: 'case-1'
-        , warmUps: 500
+        , warms: 500
         , runs: 1000
         , operationsPerSecond: expect.any(Number)
         , operationsPerMillisecond: expect.any(Number)
@@ -184,7 +184,7 @@ describe('Benchmark', () => {
         }
       , {
           name: 'case-2'
-        , warmUps: 1000
+        , warms: 1000
         , runs: 2000
         , operationsPerSecond: expect.any(Number)
         , operationsPerMillisecond: expect.any(Number)

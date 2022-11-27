@@ -2,7 +2,7 @@ import { go, Awaitable } from '@blackglory/prelude'
 
 export interface IBenchmarkOptions {
   /* The number of times to warm up the benchmark test */
-  warmUps?: number
+  warms?: number
 
   /* The number of times to run the benchmark test */
   runs?: number
@@ -10,7 +10,7 @@ export interface IBenchmarkOptions {
 
 export interface IBenchmarkCaseResult {
   name: string
-  warmUps: number
+  warms: number
   runs: number
 
   operationsPerSecond: number
@@ -42,11 +42,11 @@ interface ISample {
 
 export class Benchmark {
   private benchmarkCases: IBenchmarkCase[] = []
-  private warmUps: number
+  private warms: number
   private runs: number
 
   constructor(public readonly name: string, options: IBenchmarkOptions = {}) {
-    this.warmUps = options.warmUps ?? 100
+    this.warms = options.warms ?? 100
     this.runs = options.runs ?? 100
   }
 
@@ -62,11 +62,11 @@ export class Benchmark {
     for (const benchmarkCase of this.benchmarkCases) {
       const { fn, name, options } = benchmarkCase
       const iterate = await fn()
-      const warmUps = options.warmUps ?? this.warmUps
+      const warms = options.warms ?? this.warms
       const runs = options.runs ?? this.runs
 
       // warm-up
-      await sample(iterate, warmUps)
+      await sample(iterate, warms)
 
       // run
       const samples: ISample[] = await sample(iterate, runs)
@@ -108,7 +108,7 @@ export class Benchmark {
 
       yield {
         name
-      , warmUps
+      , warms
       , runs
       , operationsPerSecond
       , operationsPerMillisecond
@@ -125,7 +125,10 @@ export class Benchmark {
   }
 }
 
-async function sample(iterate: () => Awaitable<void>, times: number): Promise<ISample[]> {
+async function sample(
+  iterate: () => Awaitable<void>
+, times: number
+): Promise<ISample[]> {
   const samples: ISample[] = []
   for (let i = times; i--;) {
     const startRSS = process.memoryUsage().rss
