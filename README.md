@@ -59,7 +59,6 @@ interface IBenchmarkCaseResult {
 
   operationsPerSecond: number
   operationsPerMillisecond: number
-  operationsPerNanosecond: number
 
   /* Milliseconds */
   maxiumElapsedTime: bigint

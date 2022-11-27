@@ -19,13 +19,9 @@ describe('Benchmark', () => {
       , runs: 100
       , operationsPerSecond: expect.any(Number)
       , operationsPerMillisecond: expect.any(Number)
-      , operationsPerNanosecond: expect.any(Number)
-        // @ts-ignore
-      , maxiumElapsedTime: expect.any(BigInt)
-        // @ts-ignore
-      , minimumElapsedTime: expect.any(BigInt)
-        // @ts-ignore
-      , averageElapsedTime: expect.any(BigInt)
+      , maxiumElapsedTime: expect.any(Number)
+      , minimumElapsedTime: expect.any(Number)
+      , averageElapsedTime: expect.any(Number)
       , maximumMemoryIncrements: expect.any(Number)
       , minimumMemoryIncrements: expect.any(Number)
       , averageMemoryIncrements: expect.any(Number)
@@ -56,13 +52,9 @@ describe('Benchmark', () => {
         , runs: 100
         , operationsPerSecond: expect.any(Number)
         , operationsPerMillisecond: expect.any(Number)
-        , operationsPerNanosecond: expect.any(Number)
-          // @ts-ignore
-        , maxiumElapsedTime: expect.any(BigInt)
-          // @ts-ignore
-        , minimumElapsedTime: expect.any(BigInt)
-          // @ts-ignore
-        , averageElapsedTime: expect.any(BigInt)
+        , maxiumElapsedTime: expect.any(Number)
+        , minimumElapsedTime: expect.any(Number)
+        , averageElapsedTime: expect.any(Number)
         , maximumMemoryIncrements: expect.any(Number)
         , minimumMemoryIncrements: expect.any(Number)
         , averageMemoryIncrements: expect.any(Number)
@@ -73,13 +65,9 @@ describe('Benchmark', () => {
         , runs: 100
         , operationsPerSecond: expect.any(Number)
         , operationsPerMillisecond: expect.any(Number)
-        , operationsPerNanosecond: expect.any(Number)
-          // @ts-ignore
-        , maxiumElapsedTime: expect.any(BigInt)
-          // @ts-ignore
-        , minimumElapsedTime: expect.any(BigInt)
-          // @ts-ignore
-        , averageElapsedTime: expect.any(BigInt)
+        , maxiumElapsedTime: expect.any(Number)
+        , minimumElapsedTime: expect.any(Number)
+        , averageElapsedTime: expect.any(Number)
         , maximumMemoryIncrements: expect.any(Number)
         , minimumMemoryIncrements: expect.any(Number)
         , averageMemoryIncrements: expect.any(Number)
@@ -112,13 +100,9 @@ describe('Benchmark', () => {
         , runs: 1000
         , operationsPerSecond: expect.any(Number)
         , operationsPerMillisecond: expect.any(Number)
-        , operationsPerNanosecond: expect.any(Number)
-          // @ts-ignore
-        , maxiumElapsedTime: expect.any(BigInt)
-          // @ts-ignore
-        , minimumElapsedTime: expect.any(BigInt)
-          // @ts-ignore
-        , averageElapsedTime: expect.any(BigInt)
+        , maxiumElapsedTime: expect.any(Number)
+        , minimumElapsedTime: expect.any(Number)
+        , averageElapsedTime: expect.any(Number)
         , maximumMemoryIncrements: expect.any(Number)
         , minimumMemoryIncrements: expect.any(Number)
         , averageMemoryIncrements: expect.any(Number)
@@ -129,13 +113,9 @@ describe('Benchmark', () => {
         , runs: 1000
         , operationsPerSecond: expect.any(Number)
         , operationsPerMillisecond: expect.any(Number)
-        , operationsPerNanosecond: expect.any(Number)
-          // @ts-ignore
-        , maxiumElapsedTime: expect.any(BigInt)
-          // @ts-ignore
-        , minimumElapsedTime: expect.any(BigInt)
-          // @ts-ignore
-        , averageElapsedTime: expect.any(BigInt)
+        , maxiumElapsedTime: expect.any(Number)
+        , minimumElapsedTime: expect.any(Number)
+        , averageElapsedTime: expect.any(Number)
         , maximumMemoryIncrements: expect.any(Number)
         , minimumMemoryIncrements: expect.any(Number)
         , averageMemoryIncrements: expect.any(Number)
@@ -171,13 +151,9 @@ describe('Benchmark', () => {
         , runs: 1000
         , operationsPerSecond: expect.any(Number)
         , operationsPerMillisecond: expect.any(Number)
-        , operationsPerNanosecond: expect.any(Number)
-          // @ts-ignore
-        , maxiumElapsedTime: expect.any(BigInt)
-          // @ts-ignore
-        , minimumElapsedTime: expect.any(BigInt)
-          // @ts-ignore
-        , averageElapsedTime: expect.any(BigInt)
+        , maxiumElapsedTime: expect.any(Number)
+        , minimumElapsedTime: expect.any(Number)
+        , averageElapsedTime: expect.any(Number)
         , maximumMemoryIncrements: expect.any(Number)
         , minimumMemoryIncrements: expect.any(Number)
         , averageMemoryIncrements: expect.any(Number)
@@ -188,13 +164,9 @@ describe('Benchmark', () => {
         , runs: 2000
         , operationsPerSecond: expect.any(Number)
         , operationsPerMillisecond: expect.any(Number)
-        , operationsPerNanosecond: expect.any(Number)
-          // @ts-ignore
-        , maxiumElapsedTime: expect.any(BigInt)
-          // @ts-ignore
-        , minimumElapsedTime: expect.any(BigInt)
-          // @ts-ignore
-        , averageElapsedTime: expect.any(BigInt)
+        , maxiumElapsedTime: expect.any(Number)
+        , minimumElapsedTime: expect.any(Number)
+        , averageElapsedTime: expect.any(Number)
         , maximumMemoryIncrements: expect.any(Number)
         , minimumMemoryIncrements: expect.any(Number)
         , averageMemoryIncrements: expect.any(Number)
