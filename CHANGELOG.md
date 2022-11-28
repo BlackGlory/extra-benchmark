@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.2](https://github.com/BlackGlory/extra-benchmark/compare/v0.2.1...v0.2.2) (2022-11-28)
+
+
+### Bug Fixes
+
+* performance for Node.js v14 ([cc65ecf](https://github.com/BlackGlory/extra-benchmark/commit/cc65ecf7047439f4b1c3ddd8d3a64ff33a69c0b9))
+
 ### [0.2.1](https://github.com/BlackGlory/extra-benchmark/compare/v0.2.0...v0.2.1) (2022-11-27)
 
 
