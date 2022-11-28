@@ -1,4 +1,5 @@
-import { pass, Awaitable, isFunction,  } from '@blackglory/prelude'
+import { pass, Awaitable, isFunction } from '@blackglory/prelude'
+import { performance } from 'perf_hooks'
 
 export interface IBenchmarkOptions {
   /* The number of times to warm up the benchmark test */
