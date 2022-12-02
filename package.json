@@ -23,7 +23,6 @@
     "build": "run-p build:*",
     "build:compile": "tsc --project tsconfig.build.json --module commonjs",
     "build:patch": "tscpaths -p tsconfig.build.json -s ./src -o ./lib",
-    "bench": "./benches/benchmark.sh",
     "release": "standard-version"
   },
   "husky": {
