@@ -20,7 +20,7 @@
     "test:coverage": "jest --coverage --config jest.config.js",
     "prepublishOnly": "run-s clean build",
     "clean": "rimraf lib",
-    "build": "run-p build:*",
+    "build": "run-s build:*",
     "build:compile": "tsc --project tsconfig.build.json --module commonjs",
     "build:patch": "tscpaths -p tsconfig.build.json -s ./src -o ./lib",
     "release": "standard-version"
