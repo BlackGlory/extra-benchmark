@@ -122,9 +122,8 @@ export class Benchmark {
       const minimumMemoryIncrements = memoryIncrments.reduce((min, cur) => {
         return cur > min ? min : cur
       })
-      const averageMemoryIncrements = memoryIncrments.reduce((average, cur) => {
-        return (average + cur) / 2
-      })
+      const totalMemoryIncrements = memoryIncrments.reduce((average, cur) => average + cur)
+      const averageMemoryIncrements = totalMemoryIncrements / memoryIncrments.length
 
       yield {
         name
