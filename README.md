@@ -61,9 +61,9 @@ interface IBenchmarkCaseResult {
   operationsPerMillisecond: number
 
   /* Milliseconds */
-  maxiumElapsedTime: bigint
-  minimumElapsedTime: bigint
-  averageElapsedTime: bigint
+  maxiumElapsedTime: number
+  minimumElapsedTime: number
+  averageElapsedTime: number
 
   /* Bytes */
   maximumMemoryIncrements: number
@@ -89,10 +89,10 @@ class Benchmark {
     name: string
   , fn: () => Awaitable<
       // iterate(): afterEach
-    | (() => Awaitable<(() => Awaitable<void>) | Falsy>)
+    | (() => Awaitable<void | (() => Awaitable<void>)>)
     | {
         // iterate(): afterEach
-        iterate: () => Awaitable<(() => Awaitable<void>) | Falsy>
+        iterate: () => Awaitable<void | (() => Awaitable<void>)>
         beforeEach?: () => Awaitable<void>
         afterAll?: () => Awaitable<void>
       }
