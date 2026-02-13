@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.5](https://github.com/BlackGlory/extra-benchmark/compare/v0.2.4...v0.2.5) (2026-02-13)
+
+
+### Bug Fixes
+
+* types ([35961f5](https://github.com/BlackGlory/extra-benchmark/commit/35961f5fd8b7af1902a2a760f21195093d4c8446))
+
 ### [0.2.4](https://github.com/BlackGlory/extra-benchmark/compare/v0.2.3...v0.2.4) (2024-04-19)
 
 
