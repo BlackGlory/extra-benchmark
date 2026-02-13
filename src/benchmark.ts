@@ -33,7 +33,7 @@ interface IBenchmarkCase {
   fn: () => Awaitable<
   | (() => Awaitable<void | (() => void)>) // iterate
   | {
-      iterate: () => Awaitable<void | (() => void)>
+      iterate: () => Awaitable<void | (() => Awaitable<void>)>
       beforeEach?: () => Awaitable<void>
       afterAll?: () => Awaitable<void>
     }
@@ -64,7 +64,7 @@ export class Benchmark {
     | (() => Awaitable<void | (() => Awaitable<void>)>)
     | {
         // iterate(): afterEach
-        iterate: () => Awaitable<void | (() => void)>
+        iterate: () => Awaitable<void | (() => Awaitable<void>)>
         beforeEach?: () => Awaitable<void>
         afterAll?: () => Awaitable<void>
       }
