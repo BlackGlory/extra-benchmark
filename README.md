@@ -97,7 +97,7 @@ class Benchmark {
         afterAll?: () => Awaitable<void>
       }
     >
-  , options?: IBenchmarkResult
+  , options?: IBenchmarkOptions
   ): void
 
   run(): AsyncIterable<IBenchmarkCaseResult>
