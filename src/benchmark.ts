@@ -31,7 +31,7 @@ export interface IBenchmarkCaseResult {
 interface IBenchmarkCase {
   name: string
   fn: () => Awaitable<
-  | (() => Awaitable<void | (() => void)>) // iterate
+  | (() => Awaitable<void | (() => Awaitable<void>)>) // iterate
   | {
       iterate: () => Awaitable<void | (() => Awaitable<void>)>
       beforeEach?: () => Awaitable<void>
