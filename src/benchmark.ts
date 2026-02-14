@@ -1,4 +1,6 @@
 import { pass, Awaitable, isFunction } from '@blackglory/prelude'
+import { max, min, sum } from 'extra-utils'
+import { avg } from 'iterable-operator'
 import { performance } from 'perf_hooks'
 
 export interface IBenchmarkOptions {
@@ -101,29 +103,18 @@ export class Benchmark {
       await afterAll()
 
       const elapsedTimes = samples.map(x => x.elapsedTime)
-      const maxiumElapsedTime = elapsedTimes.reduce((max, cur) => {
-        return cur > max ? cur : max
-      })
-      const minimumElapsedTime = elapsedTimes.reduce((min, cur) => {
-        return cur > min ? min : cur
-      })
-      const totalElapsedTime = elapsedTimes.reduce((acc, cur) => {
-        return acc + cur
-      })
-      const averageElapsedTime = totalElapsedTime / runs
+      const maxiumElapsedTime = elapsedTimes.reduce(max)
+      const minimumElapsedTime = elapsedTimes.reduce(min)
+      const averageElapsedTime = avg(elapsedTimes)
 
+      const totalElapsedTime = elapsedTimes.reduce(sum)
       const operationsPerMillisecond = runs / totalElapsedTime
       const operationsPerSecond = runs / (totalElapsedTime / 1000)
 
       const memoryIncrments = samples.map(x => x.memoryIncrements)
-      const maximumMemoryIncrements = memoryIncrments.reduce((max, cur) => {
-        return cur > max ? cur : max
-      })
-      const minimumMemoryIncrements = memoryIncrments.reduce((min, cur) => {
-        return cur > min ? min : cur
-      })
-      const totalMemoryIncrements = memoryIncrments.reduce((average, cur) => average + cur)
-      const averageMemoryIncrements = totalMemoryIncrements / memoryIncrments.length
+      const maximumMemoryIncrements = memoryIncrments.reduce(max)
+      const minimumMemoryIncrements = memoryIncrments.reduce(min)
+      const averageMemoryIncrements = avg(memoryIncrments)
 
       yield {
         name
@@ -147,8 +138,7 @@ async function sample({ iterate, beforeEach, times }: {
   iterate: () => Awaitable<void | (() => Awaitable<void>)>
 , beforeEach: () => Awaitable<void>
 , times: number
-}
-): Promise<ISample[]> {
+}): Promise<ISample[]> {
   const samples: ISample[] = []
 
   for (let i = times; i--;) {
