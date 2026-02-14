@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/BlackGlory/extra-benchmark/compare/v0.2.5...v0.3.0) (2026-02-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* - CommonJS => ESM
+- Node.js v14 => Node.js v22
+
+### Bug Fixes
+
+* `minimumElapsedTime`, `minimumMemoryIncrements` ([3116a09](https://github.com/BlackGlory/extra-benchmark/commit/3116a09808607da7dd7ddf20e642d375715289ad))
+
+
+* upgrade dependencies ([308b583](https://github.com/BlackGlory/extra-benchmark/commit/308b58328a0568b6682fcfb7a1d41b242969209e))
+
 ### [0.2.5](https://github.com/BlackGlory/extra-benchmark/compare/v0.2.4...v0.2.5) (2026-02-13)
 
 
