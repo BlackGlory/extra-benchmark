@@ -1,12 +1,13 @@
-import { Benchmark } from '@src/benchmark'
+import { describe, test, expect, vi as vi } from 'vitest'
+import { Benchmark } from '@src/benchmark.js'
 import { toArrayAsync, toArray, takeRight } from 'iterable-operator'
 
 describe('Benchmark', () => {
   describe('run', () => {
     test('iterate(): void', async () => {
       const bench = new Benchmark('benchmark')
-      const iterate = jest.fn()
-      const fn = jest.fn(() => iterate)
+      const iterate = vi.fn()
+      const fn = vi.fn(() => iterate)
       bench.addCase('case', fn)
 
       const result = await toArrayAsync(bench.run())
@@ -33,14 +34,14 @@ describe('Benchmark', () => {
     test('iterate(): afterEach', async () => {
       const bench = new Benchmark('benchmark')
       const orderOfCalls: string[] = []
-      const iterate = jest.fn(() => {
+      const iterate = vi.fn(() => {
         orderOfCalls.push('iterate')
         return afterEach
       })
-      const afterEach = jest.fn(() => {
+      const afterEach = vi.fn(() => {
         orderOfCalls.push('afterEach')
       })
-      const fn = jest.fn(() => iterate)
+      const fn = vi.fn(() => iterate)
       bench.addCase('case', fn)
 
       const result = await toArrayAsync(bench.run())
@@ -71,20 +72,20 @@ describe('Benchmark', () => {
     test('iterate(): afterEach, beforeEach, afterAll', async () => {
       const bench = new Benchmark('benchmark')
       const orderOfCalls: string[] = []
-      const iterate = jest.fn(() => {
+      const iterate = vi.fn(() => {
         orderOfCalls.push('iterate')
         return afterEach
       })
-      const beforeEach = jest.fn(() => {
+      const beforeEach = vi.fn(() => {
         orderOfCalls.push('beforeEach')
       })
-      const afterEach = jest.fn(() => {
+      const afterEach = vi.fn(() => {
         orderOfCalls.push('afterEach')
       })
-      const afterAll = jest.fn(() => {
+      const afterAll = vi.fn(() => {
         orderOfCalls.push('afterAll')
       })
-      const fn = jest.fn(() => ({
+      const fn = vi.fn(() => ({
         iterate
       , beforeEach
       , afterAll
@@ -122,10 +123,10 @@ describe('Benchmark', () => {
   describe('options', () => {
     test('default options', async () => {
       const bench = new Benchmark('benchmark')
-      const iterate1 = jest.fn()
-      const iterate2 = jest.fn()
-      const fn1 = jest.fn(() => iterate1)
-      const fn2 = jest.fn(() => iterate2)
+      const iterate1 = vi.fn()
+      const iterate2 = vi.fn()
+      const fn1 = vi.fn(() => iterate1)
+      const fn2 = vi.fn(() => iterate2)
       bench.addCase('case-1', fn1)
       bench.addCase('case-2', fn2)
 
@@ -170,10 +171,10 @@ describe('Benchmark', () => {
         warms: 500
       , runs: 1000
       })
-      const iterate1 = jest.fn()
-      const iterate2 = jest.fn()
-      const fn1 = jest.fn(() => iterate1)
-      const fn2 = jest.fn(() => iterate2)
+      const iterate1 = vi.fn()
+      const iterate2 = vi.fn()
+      const fn1 = vi.fn(() => iterate1)
+      const fn2 = vi.fn(() => iterate2)
       bench.addCase('case-1', fn1)
       bench.addCase('case-2', fn2)
 
@@ -218,10 +219,10 @@ describe('Benchmark', () => {
         warms: 500
       , runs: 1000
       })
-      const iterate1 = jest.fn()
-      const iterate2 = jest.fn()
-      const fn1 = jest.fn(() => iterate1)
-      const fn2 = jest.fn(() => iterate2)
+      const iterate1 = vi.fn()
+      const iterate2 = vi.fn()
+      const fn1 = vi.fn(() => iterate1)
+      const fn2 = vi.fn(() => iterate2)
       bench.addCase('case-1', fn1)
       bench.addCase('case-2', fn2, {
         warms: 1000
