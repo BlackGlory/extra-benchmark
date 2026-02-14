@@ -141,7 +141,7 @@ async function sample({ iterate, beforeEach, times }: {
 }): Promise<ISample[]> {
   const samples: ISample[] = []
 
-  for (let i = times; i--;) {
+  for (let i = 0; i < times; i++) {
     await beforeEach()
 
     const startRSS = process.memoryUsage().rss
