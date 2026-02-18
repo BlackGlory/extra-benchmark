@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.1](https://github.com/BlackGlory/extra-benchmark/compare/v0.3.0...v0.3.1) (2026-02-18)
+
+
+### Features
+
+* add parameter validators ([486fb9b](https://github.com/BlackGlory/extra-benchmark/commit/486fb9b3d4608e35188b7870306278ba3b0c792a))
+
 ## [0.3.0](https://github.com/BlackGlory/extra-benchmark/compare/v0.2.5...v0.3.0) (2026-02-14)
 
 
