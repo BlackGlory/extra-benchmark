@@ -1,5 +1,5 @@
-import { pass, Awaitable, isFunction } from '@blackglory/prelude'
-import { max, min, sum } from 'extra-utils'
+import { pass, Awaitable, isFunction, assert } from '@blackglory/prelude'
+import { isntUndefined, max, min, sum } from 'extra-utils'
 import { avg } from 'iterable-operator'
 import { performance } from 'perf_hooks'
 
@@ -55,8 +55,13 @@ export class Benchmark {
   private runs: number
 
   constructor(public readonly name: string, options: IBenchmarkOptions = {}) {
-    this.warms = options.warms ?? 100
-    this.runs = options.runs ?? 100
+    const warms = options.warms ?? 100
+    validateWarms(warms)
+    this.warms = warms
+
+    const runs = options.runs ?? 100
+    validateRuns(runs)
+    this.runs = runs
   }
 
   addCase(
@@ -73,6 +78,9 @@ export class Benchmark {
     >
   , options: IBenchmarkOptions = {}
   ): void {
+    if (isntUndefined(options.warms)) validateWarms(options.warms)
+    if (isntUndefined(options.runs)) validateRuns(options.runs)
+
     this.benchmarkCases.push({ name, fn, options })
   }
 
@@ -163,4 +171,14 @@ async function sample({ iterate, beforeEach, times }: {
   }
 
   return samples
+}
+
+function validateWarms(warms: number): void {
+  assert(Number.isInteger(warms), 'The parameter warms must be an integer')
+  assert(warms >= 0, 'The parameter warms must be greater than or equal to zero')
+}
+
+function validateRuns(runs: number): void {
+  assert(Number.isInteger(runs), 'The parameter options.warm must be an integer')
+  assert(runs > 0, 'The parameter options.warm must be greater than zero')
 }
