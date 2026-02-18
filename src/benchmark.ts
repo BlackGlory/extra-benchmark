@@ -88,11 +88,19 @@ export class Benchmark {
     for (const benchmarkCase of this.benchmarkCases) {
       const { fn, name, options } = benchmarkCase
       const result = await fn()
-      const iterate = isFunction(result) ? result : result.iterate
-      const beforeEach = isFunction(result) ? pass : (result.beforeEach ?? pass)
-      const afterAll = isFunction(result) ? pass : (result.afterAll ?? pass)
-      const warms = options.warms ?? this.warms
-      const runs = options.runs ?? this.runs
+      const iterate = isFunction(result)
+                    ? result
+                    : result.iterate
+      const beforeEach = isFunction(result)
+                       ? pass
+                       : (result.beforeEach ?? pass)
+      const afterAll = isFunction(result)
+                     ? pass
+                     : (result.afterAll ?? pass)
+      const warms = options.warms
+                 ?? this.warms
+      const runs = options.runs
+                ?? this.runs
 
       // warm-up
       await sample({
